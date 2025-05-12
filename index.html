@@ -7,18 +7,24 @@
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 </head>
-
 <body>
   <div class="container">
     <div class="chatbox">
-        <div class="topbar">
-            <div class="topbar-title">🪄 Your Companion</div>
-        </div>          
+      
+      <!-- Top Bar -->
+      <div class="topbar">
+        <div class="topbar-title">🪄 Your Companion</div>
+      </div>
+
+      <!-- Chat Log -->
       <div id="chat-log" class="chat-log"></div>
+
+      <!-- Chat Input -->
       <div class="chat-input">
         <input id="user-input" type="text" placeholder="Type something sweet..." />
         <button onclick="sendMessage()">➤</button>
       </div>
+
     </div>
   </div>
   <script src="script.js"></script>
