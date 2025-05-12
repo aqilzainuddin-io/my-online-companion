@@ -3,15 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Online Companion</title>
+  <title>Your Companion</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 </head>
+
 <body>
-  <div class="chat-container">
-    <div id="chat-log"></div>
-    <div class="chat-input">
-      <input id="user-input" type="text" placeholder="Talk to me..." />
-      <button onclick="sendMessage()">Send</button>
+  <div class="container">
+    <div class="chatbox">
+        <div class="topbar">
+            <div class="topbar-title">🪄 Your Companion</div>
+        </div>          
+      <div id="chat-log" class="chat-log"></div>
+      <div class="chat-input">
+        <input id="user-input" type="text" placeholder="Type something sweet..." />
+        <button onclick="sendMessage()">➤</button>
+      </div>
     </div>
   </div>
   <script src="script.js"></script>
