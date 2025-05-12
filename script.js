@@ -5,7 +5,11 @@ function sendMessage() {
     if (!userText) return;
   
     const userBubble = `<div><b>You:</b> ${userText}</div>`;
-    const replyBubble = `<div><b>Companion:</b> ${generateReply(userText)}</div>`;
+    const replyBubble = `
+    <div class="companion-msg">
+      <img src="avatar.png" class="avatar">
+      <div class="msg-text"><b>Companion:</b> ${generateReply(userText)}</div>
+    </div>`;
     chatLog.innerHTML += userBubble + replyBubble;
     input.value = '';
     chatLog.scrollTop = chatLog.scrollHeight;

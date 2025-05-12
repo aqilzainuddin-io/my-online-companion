@@ -45,4 +45,27 @@ body {
     border-radius: 10px;
     cursor: pointer;
   }
+  .companion-msg {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 6px rgba(255, 180, 100, 0.5); /* warm orange glow */
+  }
+  
+  .msg-text {
+    background: #fff8f0;
+    padding: 8px 12px;
+    border-radius: 12px;
+    max-width: 220px;
+    font-size: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
   
