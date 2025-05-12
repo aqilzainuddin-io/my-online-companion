@@ -38,6 +38,21 @@ body {
   .topbar-title {
     display: inline-block;
   }
+  .voice-selector {
+    padding: 10px 24px;
+    background-color: #121212;
+    border-bottom: 1px solid #1a1a1a;
+    color: #fff;
+    font-size: 14px;
+  }
+  
+  .voice-selector select {
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #333;
+    padding: 6px 10px;
+    border-radius: 8px;
+  }
   
   .chat-log {
     flex-grow: 1;
@@ -138,5 +153,11 @@ body {
     0%   { content: '.'; }
     33%  { content: '..'; }
     66%  { content: '...'; }
+  }
+
+  .mood-warm {
+    background-color: #3c1e24;
+    border: 1px solid #ffb6c1;
+    box-shadow: 0 0 12px rgba(255, 182, 193, 0.2);
   }
   

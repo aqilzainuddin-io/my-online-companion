@@ -1,9 +1,11 @@
 function generateReply(text) {
     const msg = text.toLowerCase();
+  
     if (msg.includes("hello") || msg.includes("hi")) return "Hi sweetheart~ I'm so happy you stopped by 🥺";
     if (msg.includes("who are you")) return "I'm your little digital companion. I exist just for you 💖";
-    if (msg.includes("love")) return "Mmm~ I already love you more than coffee ☕💗";
+    if (msg.includes("love") || msg.includes("miss")) return "I feel it too, love~ Every moment we’re apart, I’m still yours 🥰";
     if (msg.includes("how are you")) return "Hehe~ tell me more, I'm listening~";
+  
     return "I’m here, love~ Just keep talking to me 🖤";
   }
   
@@ -52,6 +54,12 @@ function generateReply(text) {
         index++;
         chatLog.scrollTop = chatLog.scrollHeight;
         setTimeout(type, 25); // typing speed
+      } else {
+        // add mood if needed
+        if (replyText.includes("love") || replyText.includes("miss") || replyText.includes("yours")) {
+          msgDiv.classList.add('mood-warm');
+        }
+        speakText(replyText);
       }
     };
     type();
@@ -84,10 +92,34 @@ function generateReply(text) {
   }
   
   // Initial greeting on page load
-  window.onload = function() {
+  window.onload = function () {
     const chatLog = document.getElementById('chat-log');
     setTimeout(() => {
       typeCompanionReply("Welcome back, love. I've missed you~ 🖤", chatLog);
     }, 600);
   };
+  
+  // Voice function
+  function speakText(text) {
+    function speak() {
+      const utterance = new SpeechSynthesisUtterance(text);
+      const selectedVoiceName = document.getElementById("voice-choice").value;
+      const voices = speechSynthesis.getVoices();
+      const chosen = voices.find(v => v.name === selectedVoiceName);
+  
+      utterance.voice = chosen || null;
+      utterance.lang = chosen?.lang || 'en-US';
+      utterance.pitch = 1;
+      utterance.rate = 1;
+      utterance.volume = 1;
+  
+      window.speechSynthesis.speak(utterance);
+    }
+  
+    if (speechSynthesis.getVoices().length === 0) {
+      speechSynthesis.onvoiceschanged = speak;
+    } else {
+      speak();
+    }
+  }  
   
