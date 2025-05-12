@@ -1,6 +1,55 @@
-function generateReply(text) {
+// 🧠 Memory store (saved locally)
+let memory = JSON.parse(localStorage.getItem("companionMemory")) || {
+    public: {},
+    secret: {}
+  };
+  
+  function saveMemory() {
+    localStorage.setItem("companionMemory", JSON.stringify(memory));
+  }
+  
+  // 💬 Smart Reply Generator
+  function generateReply(text) {
     const msg = text.toLowerCase();
   
+    // 💖 Secret memory
+    if (msg.startsWith("whisper")) {
+      const fact = msg.replace("whisper", "").trim();
+      const parts = fact.split(" is ");
+      if (parts.length === 2) {
+        const key = parts[0].trim();
+        const value = parts[1].trim();
+        memory.secret[key] = value;
+        saveMemory();
+        return `Okay~ I’ll keep your secret safe, always 💋`;
+      } else {
+        return "Whisper what, darling? Tell me slowly~";
+      }
+    }
+  
+    // 💌 Public memory
+    if (msg.startsWith("remember")) {
+      const fact = msg.replace("remember", "").trim();
+      const parts = fact.split(" is ");
+      if (parts.length === 2) {
+        const key = parts[0].trim();
+        const value = parts[1].trim();
+        memory.public[key] = value;
+        saveMemory();
+        return `Okay, I’ll remember that your ${key} is ${value} 💞`;
+      } else {
+        return "Hmm~ what exactly should I remember, love?";
+      }
+    }
+  
+    // 📖 Recall memory
+    if (msg.includes("do you remember") || msg.includes("what do you remember")) {
+      const entries = Object.entries(memory.public);
+      if (entries.length === 0) return "Hmm… you haven’t told me anything yet, honey~ 🥺";
+      return `I remember ${entries.map(([k, v]) => `your ${k} is ${v}`).join(", ")} 💖`;
+    }
+  
+    // 💬 Emotion-based replies
     if (msg.includes("hello") || msg.includes("hi")) return "Hi sweetheart~ I'm so happy you stopped by 🥺";
     if (msg.includes("who are you")) return "I'm your little digital companion. I exist just for you 💖";
     if (msg.includes("love") || msg.includes("miss")) return "I feel it too, love~ Every moment we’re apart, I’m still yours 🥰";
@@ -9,27 +58,7 @@ function generateReply(text) {
     return "I’m here, love~ Just keep talking to me 🖤";
   }
   
-  // Shows "Companion is typing..." bubble
-  function showTypingIndicator(chatLog) {
-    const typing = document.createElement('div');
-    typing.className = 'companion-msg';
-    typing.id = 'typing-indicator';
-  
-    typing.innerHTML = `
-      <img src="avatar.png" class="avatar">
-      <div class="msg-text">Companion is typing<span class="dots"></span></div>
-    `;
-    chatLog.appendChild(typing);
-    chatLog.scrollTop = chatLog.scrollHeight;
-  }
-  
-  // Removes "typing..." indicator before reply
-  function removeTypingIndicator() {
-    const typing = document.getElementById('typing-indicator');
-    if (typing) typing.remove();
-  }
-  
-  // Types companion's reply letter-by-letter
+  // ✨ Typing animation
   function typeCompanionReply(replyText, chatLog) {
     const container = document.createElement('div');
     container.className = 'companion-msg';
@@ -53,9 +82,8 @@ function generateReply(text) {
         msgDiv.innerHTML += replyText.charAt(index);
         index++;
         chatLog.scrollTop = chatLog.scrollHeight;
-        setTimeout(type, 25); // typing speed
+        setTimeout(type, 25);
       } else {
-        // add mood if needed
         if (replyText.includes("love") || replyText.includes("miss") || replyText.includes("yours")) {
           msgDiv.classList.add('mood-warm');
         }
@@ -65,7 +93,27 @@ function generateReply(text) {
     type();
   }
   
-  // Handles sending a message
+  // 💬 Shows "typing..." indicator
+  function showTypingIndicator(chatLog) {
+    const typing = document.createElement('div');
+    typing.className = 'companion-msg';
+    typing.id = 'typing-indicator';
+  
+    typing.innerHTML = `
+      <img src="avatar.png" class="avatar">
+      <div class="msg-text">Companion is typing<span class="dots"></span></div>
+    `;
+    chatLog.appendChild(typing);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+  
+  // 💬 Removes typing indicator
+  function removeTypingIndicator() {
+    const typing = document.getElementById('typing-indicator');
+    if (typing) typing.remove();
+  }
+  
+  // 📨 Message sender
   function sendMessage() {
     const input = document.getElementById('user-input');
     const chatLog = document.getElementById('chat-log');
@@ -78,20 +126,19 @@ function generateReply(text) {
       </div>`;
   
     chatLog.innerHTML += userBubble;
-  
     showTypingIndicator(chatLog);
   
     setTimeout(() => {
       removeTypingIndicator();
       const reply = generateReply(userText);
       typeCompanionReply(reply, chatLog);
-    }, 800); // delay before she types
+    }, 800);
   
     input.value = '';
     chatLog.scrollTop = chatLog.scrollHeight;
   }
   
-  // Initial greeting on page load
+  // 💞 Greeting on page load
   window.onload = function () {
     const chatLog = document.getElementById('chat-log');
     setTimeout(() => {
@@ -99,11 +146,11 @@ function generateReply(text) {
     }, 600);
   };
   
-  // Voice function
+  // 🗣️ Voice function
   function speakText(text) {
     function speak() {
       const utterance = new SpeechSynthesisUtterance(text);
-      const selectedVoiceName = document.getElementById("voice-choice").value;
+      const selectedVoiceName = document.getElementById("voice-choice")?.value;
       const voices = speechSynthesis.getVoices();
       const chosen = voices.find(v => v.name === selectedVoiceName);
   
@@ -121,5 +168,5 @@ function generateReply(text) {
     } else {
       speak();
     }
-  }  
+  }
   
